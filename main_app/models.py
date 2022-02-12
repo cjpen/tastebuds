@@ -14,5 +14,8 @@ class Group(models.Model):
 
     def __str__(self):
         return f'{self.name} ({self.id})'
+    
+    def get_absolute_url(self):
+        return reverse('index')
 
 

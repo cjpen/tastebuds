@@ -15,20 +15,21 @@
         <nav>
             <div class="nav-wrapper">
                 <ul>
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'dashboard' %}" class="left brand-logo">&nbsp;&nbsp;Taste•Buds</a></li>
+                    {% else %}
                     <li><a href="{% url 'home' %}" class="left brand-logo">&nbsp;&nbsp;Taste•Buds</a></li>
+                    {% endif %}
                 </ul>
                 <ul class="right">
-                    <li><a href="">Home</a></li>
-                 
-                    <li><a href="">My Groups</a></li>
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'index' %}">Groups</a></li>
                     <li><a href="">My Recipies</a></li>
-                    <li><a href="">Find Groups</a></li>
-                    <li><a href="">Create New Group</a></li>
-                    <li><a href="">Log Out</a></li>
-                 
+                    <li><a href="{% url 'logout' %}">Log Out</a></li>
+                    {% else %}
                     <li><a href="{% url 'login' %}">Log In</a></li>
                     <li><a href="{% url 'signup' %}">Sign Up</a></li>
-                 
+                    {% endif %}
                 </ul>
             </div>
         </nav>
