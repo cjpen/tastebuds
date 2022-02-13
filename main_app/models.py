@@ -1,3 +1,4 @@
+from tokenize import group
 from django.db import models
 from django.urls import reverse
 from datetime import date, datetime
@@ -11,6 +12,7 @@ class Group(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
     members = models.ManyToManyField(User)
+
 
     def __str__(self):
         return f'{self.name} ({self.id})'

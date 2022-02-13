@@ -12,3 +12,13 @@ class Event(models.Model):
         return f"{self.group}'s event on {self.datetime}"
 
     
+{% for event in group.event_set.all %}
+<div class="card">
+  <div class="card-content">
+    <span class="card-title">{{ event.title }}</span>
+    <p>Host: {{ event.host }}</p>
+    <p>Location: {{ event.location }}</p>
+    <p>Event Date: {{ event.datetime }}</p>
+  </div>
+</div>
+{% endfor %}
