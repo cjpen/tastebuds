@@ -28,6 +28,34 @@ def events_detail(request, group_id, event_id):
     event = Event.objects.get(id=event_id)
     return render(request, 'events/detail.html',{'event': event})
 
+def add_event(request, group_id):
+  #create a ModelForm instance using the data in request.POST
+  form = EventForm(request.POST)
+  #check if form is valid
+  if form.is_valid():
+    # don't want to try to save the feeding
+    # until the cat_id has been assigned
+    new_event = form.save(commit=False)
+    new_event.group_id = group_id
+    new_event.save()
+  return redirect('detail', group_id=group_id)
+
+def events_create(request, group_id):
+  event_form = EventForm()
+  return render(request, {'event_form': event_form}, group_id=group_id)
+
+# # Class-Based View (CBV)
+# class EventCreate(LoginRequiredMixin, CreateView):
+#   model = Event
+#   fields = ['title', 'host', 'location', 'datetime']
+
+#   # This inherited method is called when a
+#   # valid group form is being submitted
+#   def form_valid(self, form):
+#     # form.instance is the group object
+#     form.instance.user = self.request.user
+#     return super().form_valid(form)
+
 def signup(request):
   error_message = ''
   if request.method == 'POST':
