@@ -4,7 +4,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Group, Event, Profile
+from .models import Group, Event, Profile, User
 from .forms import EventForm, ProfileForm
 
 # Create your views here.
@@ -125,3 +125,17 @@ def events_create(request, group_id):
 #     # form.instance is the group object
 #     form.instance.user = self.request.user
 #     return super().form_valid(form)
+
+@login_required
+def assoc_profile(request, group_id):
+  profile_id = Profile.objects.get()
+  group = Group.objects.get(id=group_id)
+  group.members.add(profile_id)
+  return redirect('detail', group_id=group_id)
+
+@login_required
+def unassoc_profile(request, group_id):
+  profile_id = Profile.objects.get()
+  group = Group.objects.get(id=group_id)
+  group.members.remove(profile_id)
+  return redirect('detail', group_id=group_id)
