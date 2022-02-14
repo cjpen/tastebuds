@@ -4,8 +4,8 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Group, Event
-from .forms import EventForm
+from .models import Group, Event, Profile
+from .forms import EventForm, ProfileForm
 
 # Create your views here.
 def home(request):
@@ -27,6 +27,35 @@ def groups_detail(request, group_id):
 def events_detail(request, group_id, event_id):
     event = Event.objects.get(id=event_id)
     return render(request, 'events/detail.html',{'event': event})
+
+def signup(request):
+  error_message = ''
+  if request.method == 'POST':
+    form = UserCreationForm(request.POST)
+    if form.is_valid():
+      user = form.save()
+      login(request, user)
+      return redirect ('profile_form')
+    else:
+      error_message = 'Invalid Sign Up, Try Again'
+  form = UserCreationForm()
+  context = {'form': form, 'error_message': error_message}
+  return render(request, 'registration/signup.html', context)
+
+def profile_form(request):
+  profile_form = ProfileForm()
+  return render(request, 'registration/profile_form.html', {'profile_form': profile_form})
+
+def add_profile(request):
+  current_user = request.user
+  #create a ModelForm instance using the data in request.POST
+  form = ProfileForm(request.POST)
+  #check if form is valid
+  if form.is_valid():
+    new_profile = form.save(commit=False)
+    new_profile.user = current_user
+    new_profile.save()
+  return redirect('dashboard')
 
 # Class-Based View (CBV)
 class GroupCreate(LoginRequiredMixin, CreateView):
@@ -68,18 +97,3 @@ def events_create(request, group_id):
 #     # form.instance is the group object
 #     form.instance.user = self.request.user
 #     return super().form_valid(form)
-
-def signup(request):
-  error_message = ''
-  if request.method == 'POST':
-    form = UserCreationForm(request.POST)
-    if form.is_valid():
-      user = form.save()
-      login(request, user)
-      return redirect ('dashboard')
-    else:
-      error_message = 'Invalid Sing Up, Try Again'
-  form = UserCreationForm()
-  context = {'form': form, 'error_message': error_message}
-  return render(request, 'registration/signup.html', context)
-
