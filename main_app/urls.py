@@ -12,6 +12,5 @@ urlpatterns = [
 
     path('events/<int:group_id>/create/', views.events_create, name='events_create'),
     path('groups/<int:group_id>/add_event/', views.add_event, name='add_event'),
-    # path('groups/<int:pk>/events_create/', views.EventCreate.as_view(), name='events_create'),
-    # path('groups/<int:group_id>/events/<int:event_id>', views.EventCreate.as_view(), name='events_detail'),
+    path('groups/<int:group_id>/events/<int:event_id>', views.events_detail, name='events_detail'),
 ]
