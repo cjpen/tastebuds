@@ -24,16 +24,21 @@ def groups_detail(request, group_id):
     event_form = EventForm()
     return render(request, 'groups/detail.html',{'group': group, 'event_form': event_form})
 
+def events_detail(request, group_id, event_id):
+    event = Event.objects.get(id=event_id)
+    return render(request, 'events/detail.html',{'event': event})
+
 # Class-Based View (CBV)
 class GroupCreate(LoginRequiredMixin, CreateView):
   model = Group
-  fields = ['name', 'leader_username', 'description']
+  fields = ['name', 'description']
 
   # This inherited method is called when a
   # valid group form is being submitted
   def form_valid(self, form):
     # form.instance is the group object
     form.instance.user = self.request.user
+    form.instance.leader = self.request.user.username
     return super().form_valid(form)
 
 def add_event(request, group_id):
