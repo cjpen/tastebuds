@@ -18,5 +18,6 @@ urlpatterns = [
     path('groups/<int:group_id>/events/<int:event_id>', views.events_detail, name='events_detail'),
     path('recipes/', views.recipes_index, name='recipes_index'),
     path('recipes/add_recipe/', views.add_recipe, name='add_recipe'),
+    path('events/<int:event_id>/recipe/', views.assoc_recipe, name='assoc_recipe')
 
 ]

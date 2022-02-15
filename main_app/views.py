@@ -26,7 +26,8 @@ def groups_detail(request, group_id):
 
 def events_detail(request, group_id, event_id):
     event = Event.objects.get(id=event_id)
-    return render(request, 'events/detail.html',{'event': event})
+    recipes = Recipe.objects.filter(user=request.user)
+    return render(request, 'events/detail.html',{'event': event, 'recipes' : recipes})
 
 def add_event(request, group_id):
   #create a ModelForm instance using the data in request.POST
@@ -161,3 +162,12 @@ def add_recipe(request):
     new_recipe.save()
     print('hello')
   return redirect('recipes_index')
+
+@login_required
+def assoc_recipe(request, event_id):
+  recipe_id = request
+  print(recipe_id)
+  recipe = Recipe.objects.get(id=recipe_id)
+  recipe.events.add(event_id)
+  return redirect(request, 'events/detail.html')
+
