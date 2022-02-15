@@ -1,5 +1,4 @@
 import email
-from tokenize import group
 from django.db import models
 from django.urls import reverse
 from datetime import date, datetime
@@ -43,3 +42,16 @@ class Event(models.Model):
 
     # leader_username = models.CharField(max_length=50)
     # members = models.ManyToManyField(User)
+
+class Recipe(models.Model):
+    title = models.CharField(max_length=50)
+    url = models.URLField(max_length=300)
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    events = models.ManyToManyField(Event)
+    
+    def get_absolute_url(self):
+        return reverse('recipes_index')
+    
+    def __str__(self):
+        return f'{self.title}'
