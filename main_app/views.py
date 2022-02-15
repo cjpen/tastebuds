@@ -4,8 +4,8 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Group, Event, Profile, User
-from .forms import EventForm, ProfileForm
+from .models import Group, Event, Profile, User, Recipe
+from .forms import EventForm, ProfileForm, RecipeForm
 
 # Create your views here.
 def home(request):
@@ -139,3 +139,25 @@ def unassoc_profile(request, group_id):
   group = Group.objects.get(id=group_id)
   group.members.remove(profile_id)
   return redirect('detail', group_id=group_id)
+
+def recipes_index(request):
+  recipe_form = RecipeForm()
+  recipes = Recipe.objects.filter(user=request.user)
+  return render(request, 'recipes/index.html', {
+    'recipe_form': recipe_form, 
+    'recipes': recipes
+  })
+
+def add_recipe(request):
+  #create a ModelForm instance using the data in request.POST
+  form = RecipeForm(request.POST)
+  print('adele says hello')
+  #check if form is valid
+  if form.is_valid():
+    # don't want to try to save the feeding
+    # until the cat_id has been assigned
+    new_recipe = form.save(commit=False)
+    new_recipe.user = request.user
+    new_recipe.save()
+    print('hello')
+  return redirect('recipes_index')
