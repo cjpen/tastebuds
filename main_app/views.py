@@ -128,14 +128,14 @@ def events_create(request, group_id):
 
 @login_required
 def assoc_profile(request, group_id):
-  profile_id = Profile.objects.get()
+  profile_id = Profile.objects.get(user=request.user)
   group = Group.objects.get(id=group_id)
   group.members.add(profile_id)
   return redirect('detail', group_id=group_id)
 
 @login_required
 def unassoc_profile(request, group_id):
-  profile_id = Profile.objects.get()
+  profile_id = Profile.objects.get(user=request.user)
   group = Group.objects.get(id=group_id)
   group.members.remove(profile_id)
   return redirect('detail', group_id=group_id)
