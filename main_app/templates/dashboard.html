@@ -1,32 +1,37 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class="container">
+    <h1>Dashboard</h1>
 
-<h1>Dashboard</h1>
 
 
-
-<div class="row">
     {% for group in groups %}
-    <div class="card">
-        <div class="card-content">
-            <span class="card-title">{{ group.name }}</span>
-            <p>Leader: {{ group.leader_username }}</p>
-            <p>Description: {{ group.description }}</p>
-            <p>Creation Date: {{ group.created_at }}</p>
+    <div class="row">
+        <div class="col s4">
+            <div class="card">
+                <div class="card-content">
+                    <a href="{% url 'detail' group.id %}"><span class="card-title">{{ group.name }}</span></a>
+                    <p>Leader: {{ group.leader_username }}</p>
+                    <p>Description: {{ group.description }}</p>
+                    <p>Creation Date: {{ group.created_at }}</p>
+                </div>
+            </div>
         </div>
-        {% for event in group.event_set.all %}
-        
-        <div class="card-content">
-            <span class="card-title">Event: {{ event.title }}</span>
-            <p>Host: {{ event.host }}</p>
-            <p>Location: {{ event.location }}</p>
-            <p>Event Date: {{ event.datetime }}</p>
+        <div class="col s4">
+            {% for event in group.event_set.all %}
+            <div class="card">
+                <div class="card-content">
+                    <a href="{% url 'events_detail' group.id event.id %}"><span class="card-title">Event: {{ event.title }}</span></a>
+                    <p>Host: {{ event.host }}</p>
+                    <p>Location: {{ event.location }}</p>
+                    <p>Event Date: {{ event.datetime }}</p>
+                </div>
+            </div>
+            {% endfor %}
         </div>
-        
-        {% endfor %}
     </div>
     {% endfor %}
-    
+
 </div>
 
 {% endblock %}
