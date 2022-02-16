@@ -3,7 +3,7 @@
 <div class="container">
     <h1>{{ event.title }}</h1>
 
-    <form action="{% url 'assoc_recipe' group.id event.id  %}" method="POST">
+    <form action="{% url 'assoc_recipe' event.id  %}" method="POST">
         {% csrf_token %}
         <select name="recipes" style="display: block;">
             {% for recipe in recipes_not_in_event %}
@@ -30,6 +30,11 @@
                 <span class="card-title">{{ recipe.user }}</span>
                 </div>
             </a>
+            <form action="{% url 'vote_up' event.id recipe.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn">👍</button>
+            </form>
+            <div>vote score: {{ tally | get_item:recipe.id }}</div>
         </div>
         {% endfor %}
     </div>

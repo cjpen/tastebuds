@@ -56,3 +56,9 @@ class Recipe(models.Model):
     
     def __str__(self):
         return f'{self.title}'
+
+class Vote(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    
