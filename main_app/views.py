@@ -12,7 +12,9 @@ def home(request):
     return render(request, 'home.html')
 
 def dashboard (request):
-    return render(request, 'dashboard.html')
+    profile = Profile.objects.get(user=request.user)
+    groups = Group.objects.filter(members=profile)
+    return render(request, 'dashboard.html', {'groups': groups})
 
 def groups_index(request):
     groups = Group.objects.all()
@@ -25,9 +27,16 @@ def groups_detail(request, group_id):
     return render(request, 'groups/detail.html',{'group': group, 'event_form': event_form})
 
 def events_detail(request, group_id, event_id):
+    group = Group.objects.get(id=group_id)
     event = Event.objects.get(id=event_id)
     recipes = Recipe.objects.filter(user=request.user)
-    return render(request, 'events/detail.html',{'event': event, 'recipes' : recipes})
+
+    recipes_in_event = Recipe.objects.filter(events=event_id)
+    # recipes_notin_event = 
+
+
+    # recipes_notin_event = Toy.objects.exclude(id__in=id_list)
+    return render(request, 'events/detail.html', {'event': event, 'recipes': recipes, "group": group, 'recipes_in_event': recipes_in_event})
 
 def add_event(request, group_id):
   #create a ModelForm instance using the data in request.POST
