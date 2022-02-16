@@ -52,7 +52,7 @@
   {% for event in group.event_set.all %}
   <div class="card">
     <div class="card-content">
-      <a href="{% url 'events_detail' group.id event.id %}">
+      <a href="{% url 'events_detail' event.id %}">
       <span class="card-title">{{ event.title }}</span>
       <p>Host: {{ event.host }}</p>
       <p>Location: {{ event.location }}</p>

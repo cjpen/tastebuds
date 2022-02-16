@@ -4,41 +4,52 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Group, Event, Profile, User, Recipe
+from django.db import models
+from django.template.defaultfilters import register
+from .models import Group, Event, Profile, User, Recipe, Vote
 from .forms import EventForm, ProfileForm, RecipeForm
+
+# Custom Filter
+@register.filter
+def get_item(dictionary, key):
+  return dictionary.get(key)
 
 # Create your views here.
 def home(request):
-    return render(request, 'home.html')
+  return render(request, 'home.html')
 
 def dashboard (request):
-    profile = Profile.objects.get(user=request.user)
-    groups = Group.objects.filter(members=profile)
-    return render(request, 'dashboard.html', {'groups': groups})
+  profile = Profile.objects.get(user=request.user)
+  groups = Group.objects.filter(members=profile)
+  return render(request, 'dashboard.html', {'groups': groups})
 
 def groups_index(request):
-    groups = Group.objects.all()
-    return render(request, 'groups/index.html', {'groups': groups})
+  groups = Group.objects.all()
+  return render(request, 'groups/index.html', {'groups': groups})
 
 def groups_detail(request, group_id):
-    group = Group.objects.get(id=group_id)
-    # events = Event.objects.get(id=group_id)
-    event_form = EventForm()
-    return render(request, 'groups/detail.html',{'group': group, 'event_form': event_form})
+  group = Group.objects.get(id=group_id)
+  # events = Event.objects.get(id=group_id)
+  event_form = EventForm()
+  return render(request, 'groups/detail.html',{'group': group, 'event_form': event_form})
 
-def events_detail(request, group_id, event_id):
-    group = Group.objects.get(id=group_id)
-    event = Event.objects.get(id=event_id)
-    recipes = Recipe.objects.filter(user=request.user)
+def events_detail(request, event_id):
+  event = Event.objects.get(id=event_id)
 
-    recipes_in_event = Recipe.objects.filter(events=event_id)
-    recipes_not_in_event = Recipe.objects.exclude(events=event_id)
+  recipes_in_event = Recipe.objects.filter(events=event_id)
+  recipes_not_in_event = Recipe.objects.exclude(events=event_id)
 
-    # recipes_notin_event = 
-    # recipes_not_in_event = Recipe.objects.exclude(recipes_in_event)
+  votes = Vote.objects.filter(event_id=event_id).values('recipe_id').annotate(cnt=models.Count('recipe_id'))
+  tally = {}
+  for r in votes:
+    tally[r['recipe_id']] = r['cnt']
 
-    # recipes_notin_event = Toy.objects.exclude(id__in=id_list)
-    return render(request, 'events/detail.html', {'event': event, 'recipes_not_in_event': recipes_not_in_event, "group": group, 'recipes_in_event': recipes_in_event})
+  return render(request, 'events/detail.html', {
+    'event': event,
+    'recipes_not_in_event': recipes_not_in_event,
+    'recipes_in_event': recipes_in_event,
+    'tally': tally,
+  })
 
 def add_event(request, group_id):
   #create a ModelForm instance using the data in request.POST
@@ -56,17 +67,6 @@ def events_create(request, group_id):
   event_form = EventForm()
   return render(request, {'event_form': event_form}, group_id=group_id)
 
-# # Class-Based View (CBV)
-# class EventCreate(LoginRequiredMixin, CreateView):
-#   model = Event
-#   fields = ['title', 'host', 'location', 'datetime']
-
-#   # This inherited method is called when a
-#   # valid group form is being submitted
-#   def form_valid(self, form):
-#     # form.instance is the group object
-#     form.instance.user = self.request.user
-#     return super().form_valid(form)
 
 def signup(request):
   error_message = ''
@@ -127,16 +127,7 @@ def events_create(request, group_id):
   return render(request, {'event_form': event_form}, group_id=group_id)
 
 # # Class-Based View (CBV)
-# class EventCreate(LoginRequiredMixin, CreateView):
-#   model = Event
-#   fields = ['title', 'host', 'location', 'datetime']
 
-#   # This inherited method is called when a
-#   # valid group form is being submitted
-#   def form_valid(self, form):
-#     # form.instance is the group object
-#     form.instance.user = self.request.user
-#     return super().form_valid(form)
 
 @login_required
 def assoc_profile(request, group_id):
@@ -161,13 +152,9 @@ def recipes_index(request):
   })
 
 def add_recipe(request):
-  #create a ModelForm instance using the data in request.POST
   form = RecipeForm(request.POST)
   print('adele says hello')
-  #check if form is valid
   if form.is_valid():
-    # don't want to try to save the feeding
-    # until the cat_id has been assigned
     new_recipe = form.save(commit=False)
     new_recipe.user = request.user
     new_recipe.save()
@@ -175,10 +162,17 @@ def add_recipe(request):
   return redirect('recipes_index')
 
 @login_required
-def assoc_recipe(request, group_id, event_id):
+def assoc_recipe(request, event_id):
   recipe_id = request.POST['recipes']
-  print(recipe_id)
   recipe = Recipe.objects.get(id=recipe_id)
   recipe.events.add(event_id)
-  return redirect('events_detail', group_id, event_id)
+  return redirect('events_detail', event_id)
 
+@login_required
+def vote_up(request, event_id, recipe_id):
+  vote = Vote.objects.filter(event_id=event_id, recipe_id=recipe_id, user=request.user)
+  if vote:
+    return redirect('events_detail', event_id)
+  else:
+    Vote.objects.create(event_id=event_id, recipe_id=recipe_id, user=request.user)
+    return redirect('events_detail', event_id)
