@@ -3,11 +3,11 @@
 
 <h1>{{ event.title }}</h1>
 
-<form action="{% url 'assoc_recipe' event.id  %}" method="POST">
+<form action="{% url 'assoc_recipe' group.id event.id  %}" method="POST">
     {% csrf_token %}
     <select name="recipes" style="display: block;">
         {% for recipe in recipes %}
-        <option value="{{recipe.id}}">{{ recipe.title }}</option>
+        <option name='recipe' value="{{recipe.id}}">{{ recipe.title }}</option>
         {% endfor %}
     </select>
         <input type="submit" class="btn" value="Add Recipe">

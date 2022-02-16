@@ -164,10 +164,10 @@ def add_recipe(request):
   return redirect('recipes_index')
 
 @login_required
-def assoc_recipe(request, event_id):
-  recipe_id = request
+def assoc_recipe(request, group_id, event_id):
+  recipe_id = request.POST['recipes']
   print(recipe_id)
   recipe = Recipe.objects.get(id=recipe_id)
   recipe.events.add(event_id)
-  return redirect(request, 'events/detail.html')
+  return redirect('events_detail', group_id, event_id)
 
