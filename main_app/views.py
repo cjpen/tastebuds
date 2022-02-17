@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
@@ -15,6 +15,16 @@ def get_item(dictionary, key):
   return dictionary.get(key)
 
 # Create your views here.
+
+class GroupUpdate(LoginRequiredMixin, UpdateView):
+  model = Group
+  fields = ['name', 'description']
+
+class GroupDelete(LoginRequiredMixin, DeleteView):
+  model = Group
+  success_url = '/dashboard/'
+
+
 def home(request):
   return render(request, 'home.html')
 
