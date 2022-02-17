@@ -16,12 +16,15 @@
   <div class="card">
       <div class="card-content">
         <span class="card-title">{{ group.name }}</span>
-        <p>Leader: {{ group.leader_username }}</p>
+        <p>Creator: {{ group.leader }}</p>
         <p>Description: {{ group.description }}</p>
         <p>Creation Date: {{ group.created_at }}</p>
       </div>
   </div>
-
+  <div class="card-action">
+    <a href="{% url 'groups_update' group.id %}">Edit</a>
+    <a href="{% url 'groups_delete' group.id %}">Delete</a>
+  </div>
   <div class="row">
     <div class="col s6">
       <h3>{{ group.name }}'s Members</h3>
@@ -36,7 +39,7 @@
             <div class="card-action">
               <form action="{% url 'unassoc_profile' group.id %}" method="POST">
                 {% csrf_token %}
-                <button type="submit" class="btn">Remove</button>
+                <button type="submit" class="btn">Leave</button>
               </form>
             </div>
           </div>
