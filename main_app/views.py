@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import models
 from django.template.defaultfilters import register
-from .models import Group, Event, Profile, User, Recipe, Vote, PhotoGroup, PhotoEvent, PhotoRecipe
+from .models import Group, Event, Profile, Recipe, Vote, PhotoGroup, PhotoEvent, PhotoRecipe
 from .forms import EventForm, ProfileForm, RecipeForm
 
 # Custom Filter
