@@ -63,18 +63,6 @@ class Vote(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
 
-
-####################################
-class Photo(models.Model):
-  url = models.CharField(max_length=200)
-  group = models.ForeignKey(Group, on_delete=models.CASCADE)
-  event = models.ForeignKey(Event, on_delete=models.CASCADE)
-  profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-  recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
-
-
-################################
-
 class PhotoGroup(models.Model):
   url = models.CharField(max_length=200)
   group = models.ForeignKey(Group, on_delete=models.CASCADE)
