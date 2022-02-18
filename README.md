@@ -26,7 +26,7 @@ Taste•Buds is an group development project by the California Coding Pythonista
 * Pitch Deck: [Pitch Deck for Taste•Buds](https://docs.google.com/presentation/d/1-OkVuCbA1mxGEotwqymSPxT0iRdhwywnUiN4Bp3qXAo/edit?usp=sharing)
 
 ## Next Steps
-As with any app, there is always more to be done. Additional user stories that can be implemented are listed below:
+As with any app, there is always more to be done. Additional improvements that can be implemented are listed below:
 * Profile Pictures
 * Mobile Optimization of Design
 * Addition of downvoting into voting feature on recipes
