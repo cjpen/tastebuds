@@ -20,7 +20,10 @@ body {
 
   .card_image {
     border-radius: 15px;
+    max-width: 300px;
+
   }
+
 
   .group_margin {
     margin: 20px;

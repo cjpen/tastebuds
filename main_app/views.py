@@ -84,7 +84,23 @@ def add_event(request, group_id):
 @login_required
 def events_create(request, group_id):
   event_form = EventForm()
-  return render(request, {'event_form': event_form}, group_id=group_id)
+  group = Group.objects.get(id=group_id)
+  return render(request, 'events/events_create.html', {'event_form': event_form, 'group': group})
+
+@login_required
+def recipes_index(request):
+  recipe_form = RecipeForm()
+  recipes = Recipe.objects.filter(user=request.user)
+  return render(request, 'recipes/index.html', {
+    'recipe_form': recipe_form, 
+    'recipes': recipes
+  })
+
+
+# @login_required
+# def events_create(request, group_id):
+#   event_form = EventForm()
+#   return render(request, {'event_form': event_form, "group.id": group_id})
 
 
 def signup(request):
@@ -144,12 +160,6 @@ def add_event(request, group_id):
     new_event.save()
   return redirect('detail', group_id=group_id)
 
-@login_required
-def events_create(request, group_id):
-  event_form = EventForm()
-  return render(request, {'event_form': event_form}, group_id=group_id)
-
-# # Class-Based View (CBV)
 
 
 @login_required
