@@ -4,6 +4,10 @@ Taste•Buds users can use this platform to store their favorite recipes from ac
 Taste•Buds is an group developemnt project by the California Coding Pythonistas ([Chris Penksa](https://github.com/cjpen), [Devlin Booth](https://github.com/adevlinb), and [Gavin Logan](https://github.com/Raconic)).
 
 ## Screenshots
+![Landing Page](https://i.imgur.com/JMWj0Hd.png)
+![Dashboard](https://i.imgur.com/9fc0rJT.png)
+![My Recipes](https://i.imgur.com/2YKdcGM.png)
+
 
 ## Technologies Used
 
@@ -16,7 +20,6 @@ Taste•Buds is an group developemnt project by the California Coding Pythonista
 *Heroku
 *Amazon Web Services - S3
 
-
 ## Getting Started:
 Deployed App: [Taste•Buds on Heroku](https://taste--buds.herokuapp.com/)
 Trello Board: [User Stories, ERD, and Wireframes for Taste•Buds](https://trello.com/b/WeQX8Q34/project-3-chris-dev-gavin)
@@ -24,3 +27,8 @@ Pitch Deck: [Pitch Deck for Taste•Buds](https://docs.google.com/presentation/d
 
 ## Next Steps
 As with any app, there is always more to be done. Additional user stories that can be implemented are listed below:
+*Profile Pictures
+*Mobile Optimization of Design
+*Addition of downvoting into voting feature on recipes
+*Enhance CSS for improved user experience
+*Additional Bug Fixes
