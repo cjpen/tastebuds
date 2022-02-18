@@ -44,10 +44,13 @@ def groups_index(request):
 
 @login_required
 def groups_detail(request, group_id):
-  group = Group.objects.get(id=group_id)
-  # events = Event.objects.get(id=group_id)
-  event_form = EventForm()
-  return render(request, 'groups/detail.html',{'group': group, 'event_form': event_form})
+  profile = Profile.objects.get(user=request.user)
+  groups = Group.objects.filter(members=profile, id=group_id)
+  if groups:
+     group = Group.objects.get(id=group_id)
+     return render(request, 'groups/detail.html', {'group': group})
+  else:
+    return redirect('index')
 
 @login_required
 def events_detail(request, event_id):
