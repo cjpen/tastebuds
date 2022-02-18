@@ -12,3 +12,16 @@ body {
     padding-top: 0;
     text-align: right;
   }
+
+  .recipe-card {
+    border-radius: 20px;
+    max-width: 200px;
+  }
+
+  .card_image {
+    border-radius: 15px;
+  }
+
+  .group_margin {
+    margin: 20px;
+  }
