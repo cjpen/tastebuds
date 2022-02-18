@@ -1,7 +1,7 @@
 # Taste•Buds
 Gathering for a shared meal is integral touchpoint to the human social experience. We decided to build an app to streamline the logistics around sheduling and building a menu for your next gathering, leaving users to focus on enjoying the moment. 
 Taste•Buds users can use this platform to store their favorite recipes from across the web under the "My Recipes" tab. Users can then join a Group, which is a collection of members who seek to plan shared meals together. Events are created for the group, and then users can bring democacy to the table by voting for their favorite recipe.
-Taste•Buds is an group developemnt project by the California Coding Pythonistas ([Chris Penksa](https://github.com/cjpen), [Devlin Booth](https://github.com/adevlinb), and [Gavin Logan](https://github.com/Raconic)).
+Taste•Buds is an group development project by the California Coding Pythonistas ([Chris Penksa](https://github.com/cjpen), [Devlin Booth](https://github.com/adevlinb), and [Gavin Logan](https://github.com/Raconic)).
 
 ## Screenshots
 ![Landing Page](https://i.imgur.com/JMWj0Hd.png)
