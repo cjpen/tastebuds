@@ -11,24 +11,24 @@ Taste•Buds is an group developemnt project by the California Coding Pythonista
 
 ## Technologies Used
 
-*HTML
-*CSS
-*Python
-*Django
-*Materialize
-*GitHub
-*Heroku
-*Amazon Web Services - S3
+* HTML
+* CSS
+* Python
+* Django
+* Materialize
+* GitHub
+* Heroku
+* Amazon Web Services - S3
 
 ## Getting Started:
-Deployed App: [Taste•Buds on Heroku](https://taste--buds.herokuapp.com/)
-Trello Board: [User Stories, ERD, and Wireframes for Taste•Buds](https://trello.com/b/WeQX8Q34/project-3-chris-dev-gavin)
-Pitch Deck: [Pitch Deck for Taste•Buds](https://docs.google.com/presentation/d/1-OkVuCbA1mxGEotwqymSPxT0iRdhwywnUiN4Bp3qXAo/edit?usp=sharing)
+* Deployed App: [Taste•Buds on Heroku](https://taste--buds.herokuapp.com/)
+* Trello Board: [User Stories, ERD, and Wireframes for Taste•Buds](https://trello.com/b/WeQX8Q34/project-3-chris-dev-gavin)
+* Pitch Deck: [Pitch Deck for Taste•Buds](https://docs.google.com/presentation/d/1-OkVuCbA1mxGEotwqymSPxT0iRdhwywnUiN4Bp3qXAo/edit?usp=sharing)
 
 ## Next Steps
 As with any app, there is always more to be done. Additional user stories that can be implemented are listed below:
-*Profile Pictures
-*Mobile Optimization of Design
-*Addition of downvoting into voting feature on recipes
-*Enhance CSS for improved user experience
-*Additional Bug Fixes
+* Profile Pictures
+* Mobile Optimization of Design
+* Addition of downvoting into voting feature on recipes
+* nhance CSS for improved user experience
+* Additional Bug Fixes
