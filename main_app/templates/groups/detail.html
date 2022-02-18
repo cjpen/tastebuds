@@ -1,123 +1,100 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>{{ group.name }} Details</h1>
 
 <div class="container">
-
+  <h1>{{ group.name }} Details</h1>
   <div class="row">
-
     {% if group.photogroup_set.all.count %}
     {% for photo in group.photogroup_set.all %}
     <div class="col s4">
-        <div class="card-image" class="card_image">
-            <img class="card_image" src="{{photo.url}}">
-        </div>
-        {% endfor %}
-        {% else %}
-        <form action="{% url 'add_photo_group' group.id %}" enctype="multipart/form-data" method="POST" class="card-panel">
-          {% csrf_token %}
-          <input type="file" name="photo-file">
-          <br><br>
-          <input type="submit" class="btn" value="Upload Photo">
-        </form>
+      <div class="card-image" class="card_image">
+        <img class="card_image" src="{{photo.url}}">
+      </div>
+      {% endfor %}
+      {% else %}
+      <form action="{% url 'add_photo_group' group.id %}" enctype="multipart/form-data" method="POST"
+        class="card-panel">
+        {% csrf_token %}
+        <input type="file" name="photo-file">
+        <br><br>
+        <input type="submit" class="btn" value="Upload Photo">
+      </form>
       {% endif %}
     </div>
-    <div class="col s6">  
+    <div id="group-detail" class="col s6">
       <div class="card content">
         <div class="group_margin">
           <p>Creator: {{ group.leader }}</p>
           <p>Description: {{ group.description }}</p>
           <p>Creation Date: {{ group.created_at }}</p>
-        </div>
-        <div class="card-action">
-          <a href="{% url 'groups_update' group.id %}">Edit Info</a>
-          <a href="{% url 'groups_delete' group.id %}">Delete Group</a>
+          <pre><a class="card-title" href="{% url 'groups_update' group.id %}">Edit Info</a>    <a class="card-title" href="{% url 'groups_delete' group.id %}">Delete Group</a>
+          </pre>
         </div>
       </div>
     </div>
   </div>
-
-
-
-
- 
-
-    <div class="row">
-      <h3>{{ group.name }}'s Members</h3>
-      {% if group.members.count %}
-      {% for member in group.members.all %}
-        <div class="col s3">
-          <div class="card">
-            <div class="card-content">
-              <span class="card-title">
-                {{ member.name }}
-              </span>
-            </div>
-            <div class="card-action">
-              <form action="{% url 'unassoc_profile' group.id %}" method="POST">
-                {% csrf_token %}
-                <button type="submit" class="btn">Leave</button>
-              </form>
-            </div>
-          </div>
+  <div class="row">
+    <h3>{{ group.name }}'s Members</h3>
+    {% if group.members.count %}
+    {% for member in group.members.all %}
+    <div class="col s3">
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title">
+            {{ member.name }}
+          </span>
+          <form action="{% url 'unassoc_profile' group.id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn">Leave</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <h5>No Members :(</h5>
+    {% endif %}
+  </div>
+  <h3>Group Events:</h3>
+  <a class=btn href="{% url 'events_create' group.id %}"> ADD AN EVENT</a>
+  <br>
+  <br>
+  {% if group.event_set.all.count %}
+  {% for event in group.event_set.all %}
+  <div class="row">
+    <div class="col s4">
+      {% if event.photoevent_set.all.count %}
+      {% for photo in event.photoevent_set.all %}
+      <div class="card-image" class="card_image">
+        <img class="card_image" src="{{photo.url}}">
       </div>
       {% endfor %}
       {% else %}
-        <h5>No Members :(</h5>
+      <form action="{% url 'add_photo_event' event.id %}" enctype="multipart/form-data" method="POST"
+        class="card-panel">
+        {% csrf_token %}
+        <input type="file" name="photo-file">
+        <br><br>
+        <input type="submit" class="btn" value="Upload Photo">
+      </form>
       {% endif %}
     </div>
-
-
-    <h3>Group Events:</h3>
-
-    {% if group.event_set.all.count %}
-    {% for event in group.event_set.all %}
-      <div class="row">
-        <div class="col s4">
-          {% if event.photoevent_set.all.count %}
-          {% for photo in event.photoevent_set.all %}
-            <div class="card-image" class="card_image">
-              <img class="card_image" src="{{photo.url}}">
-            </div>
-          {% endfor %}
-          {% else %}
-            <form action="{% url 'add_photo_event' event.id %}" enctype="multipart/form-data" method="POST" class="card-panel">
-              {% csrf_token %}
-              <input type="file" name="photo-file">
-              <br><br>
-              <input type="submit" class="btn" value="Upload Photo">
-            </form>
-          {% endif %}
-        </div>
-  
-
-        <div class="col s6">
-          <div class="card content">
-            <div class="group_margin">
-              <a href="{% url 'events_detail' event.id %}">
-              <span class="card-title">{{ event.title }}</span>
-              <p>Host: {{ event.host }}</p>
-              <p>Location: {{ event.location }}</p>
-              <p>Event Date: {{ event.datetime }}</p>
-              </a>
-            </div>
-          </div>
+    <div class="col s6">
+      <div class="card content">
+        <div class="group_margin">
+          <a href="{% url 'events_detail' event.id %}">
+            <span class="card-title">{{ event.title }}</span></a>
+          <p>Host: {{ event.host }}</p>
+          <p>Location: {{ event.location }}</p>
+          <p>Event Date: {{ event.datetime }}</p>
         </div>
       </div>
-    
-      {% endfor %}
-      {% else %}
-          <h5>Y'all need to get together and make some events!</h5>
-      {% endif %}
-
-
-
-  <h3>Create an event!</h3>
-  <a href="{% url 'events_create' group.id %}"> ADD AN EVENT</a>
-
- 
-
+    </div>
+  </div>
+  {% endfor %}
+  {% else %}
+  <h5>Y'all need to get together and make some events!</h5>
+  {% endif %}
 </div>
-
 
 {% endblock %}
